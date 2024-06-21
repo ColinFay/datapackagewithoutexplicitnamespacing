@@ -1,0 +1,101 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# datapackagewithoutexplicitnamespacing
+
+This package reprexes the availability of datasets when the package is loaded or not.
+
+Content of the package :
+
+- One dataset called `a_dataframe`
+
+The following functions:
+
+```r
+#' Hello world
+#'
+#' @rdname hello_world
+#' @export
+hello_world <- function() {
+  a_dataframe
+}
+
+#' @rdname hello_world
+#' @export
+hello_world_with_explicit_namespacing <- function() {
+  datapackagewithoutexplicitnamespacing::a_dataframe
+}
+```
+
+This package shows the diff between doing `package::fun()` vs `library(package) + fun()` on `package::dataset` vs `dataset`
+
+1. Install
+
+```r
+pak::pak("colinfay/datapackagewithoutexplicitnamespacing")
+```
+
+2. Don't load the package and try `package::fun()`, only one function works 👇
+
+```r
+> datapackagewithoutexplicitnamespacing::hello_world()
+Error in datapackagewithoutexplicitnamespacing::hello_world() :
+  object 'a_dataframe' not found
+ ```
+
+ ```r
+> datapackagewithoutexplicitnamespacing::hello_world_with_explicit_namespacing()
+    x           y
+1   1 -0.49182211
+2   2 -0.52659243
+3   3 -0.73042957
+4   4  1.63168023
+5   5  1.00269111
+6   6 -0.03972887
+7   7  1.14484699
+8   8 -1.09554798
+9   9 -0.15175320
+10 10  0.91959052
+```
+
+3. Load the package and try `fun()`, both functions work 👇
+
+```r
+> library(datapackagewithoutexplicitnamespacing)
+> hello_world()
+    x           y
+1   1 -0.49182211
+2   2 -0.52659243
+3   3 -0.73042957
+4   4  1.63168023
+5   5  1.00269111
+6   6 -0.03972887
+7   7  1.14484699
+8   8 -1.09554798
+9   9 -0.15175320
+10 10  0.91959052
+> hello_world_with_explicit_namespacing()
+    x           y
+1   1 -0.49182211
+2   2 -0.52659243
+3   3 -0.73042957
+4   4  1.63168023
+5   5  1.00269111
+6   6 -0.03972887
+7   7  1.14484699
+8   8 -1.09554798
+9   9 -0.15175320
+10 10  0.91959052
+```
