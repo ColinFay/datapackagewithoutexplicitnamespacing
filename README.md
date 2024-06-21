@@ -6,6 +6,10 @@
 This package reprexes the availability of datasets when the package is
 loaded or not.
 
+TLDR: add explicit namespacing `pkg::dataset` to your dataset, because
+`pkg::function()` doesn’t have access to the dataset before you
+`library("pkg")`.
+
 Content of the package :
 
 - One dataset called `a_dataframe`
